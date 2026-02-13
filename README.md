@@ -1,2 +1,2 @@
-# pancreas-calculator1
+№ калькулятор# pancreas-calculator1
 treatment pancreatitis
