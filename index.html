@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор объема хирургического вмешательства</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .form-group:hover {
+            transform: translateX(5px);
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        select:hover {
+            border-color: #667eea;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 10px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result.low {
+            background: #d4edda;
+            border: 2px solid #28a745;
+        }
+        
+        .result.medium {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+        }
+        
+        .result.high {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+        }
+        
+        .result h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        .result.low h2 {
+            color: #155724;
+        }
+        
+        .result.medium h2 {
+            color: #856404;
+        }
+        
+        .result.high h2 {
+            color: #721c24;
+        }
+        
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .recommendation {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+        
+        .reset-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .reset-btn:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 Калькулятор объема хирургического вмешательства</h1>
+        <p class="subtitle">При панкреонекрозе</p>
+        
+        <form id="calculatorForm">
+            <div class="form-group">
+                <label for="gender">Пол пациента:</label>
+                <select id="gender" required>
+                    <option value="">Выберите...</option>
+                    <option value="0">Женский</option>
+                    <option value="10">Мужской</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="necrosis">Объем некроза поджелудочной железы:</label>
+                <select id="necrosis" required>
+                    <option value="">Выберите...</option>
+                    <option value="0">Менее 30%</option>
+                    <option value="5">30-50%</option>
+                    <option value="8">Более 50%</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="character">Характер скоплений:</label>
+                <select id="character" required>
+                    <option value="">Выберите...</option>
+                    <option value="0">Гомогенный</option>
+                    <option value="10">Гетерогенный</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="wall">Наличие отграничения:</label>
+                <select id="wall" required>
+                    <option value="">Выберите...</option>
+                    <option value="0">Стенка не визуализируется</option>
+                    <option value="5">Тонкая стенка</option>
+                    <option value="10">Оформленная стенка с секвестром</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="crp">ЦРБ (С-реактивный белок), мг/л:</label>
+                <select id="crp" required>
+                    <option value="">Выберите...</option>
+                    <option value="2">Менее 50</option>
+                    <option value="8">50-100</option>
+                    <option value="10">Более 100</option>
+                    <option value="12">Нарастание более 20</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="failure">Синдром моно- или полиорганной недостаточности:</label>
+                <select id="failure" required>
+                    <option value="">Выберите...</option>
+                    <option value="0">Нет</option>
+                    <option value="12">Есть</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="volume">Объем забрюшинного скопления (см):</label>
+                <select id="volume" required>
+                    <option value="">Выберите...</option>
+                    <option value="2">Менее 10 см</option>
+                    <option value="5">10-15 см</option>
+                    <option value="8">Более 15 см</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="calculate-btn">📊 Рассчитать</button>
+        </form>
+        
+        <div id="result" class="result">
+            <h2>Результат</h2>
+            <div class="score" id="scoreValue"></div>
+            <div class="recommendation" id="recommendationText"></div>
+            <button class="reset-btn" onclick="resetCalculator()">Сбросить</button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('calculatorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Получаем значения
+            const gender = parseInt(document.getElementById('gender').value);
+            const necrosis = parseInt(document.getElementById('necrosis').value);
+            const character = parseInt(document.getElementById('character').value);
+            const wall = parseInt(document.getElementById('wall').value);
+            const crp = parseInt(document.getElementById('crp').value);
+            const failure = parseInt(document.getElementById('failure').value);
+            const volume = parseInt(document.getElementById('volume').value);
+            
+            // Рассчитываем сумму баллов
+            const totalScore = gender + necrosis + character + wall + crp + failure + volume;
+            
+            // Определяем рекомендацию
+            let recommendation = '';
+            let resultClass = '';
+            
+            if (totalScore < 15) {
+                recommendation = '<strong>Рекомендация:</strong> Не более 2 дренажей';
+                resultClass = 'low';
+            } else if (totalScore >= 15 && totalScore < 30) {
+                recommendation = '<strong>Рекомендация:</strong> Эндоскопическое вмешательство и/или 3-4 дренажа';
+                resultClass = 'medium';
+            } else if (totalScore >= 30 && totalScore < 50) {
+                recommendation = '<strong>Рекомендация:</strong> 4-5 дренажей / эндоскопическое / SEMS';
+                resultClass = 'medium';
+            } else {
+                recommendation = '<strong>Рекомендация:</strong> WARD / открытый доступ';
+                resultClass = 'high';
+            }
+            
+            // Отображаем результат
+            document.getElementById('scoreValue').textContent = totalScore + ' баллов';
+            document.getElementById('recommendationText').innerHTML = recommendation;
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result ' + resultClass;
+            resultDiv.style.display = 'block';
+            
+            // Прокрутка к результату
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        
+        function resetCalculator() {
+            document.getElementById('calculatorForm').reset();
+            document.getElementById('result').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
